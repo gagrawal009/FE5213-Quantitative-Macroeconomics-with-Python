@@ -10,10 +10,10 @@ import pandas as pd
 
 # AND NOW WE START WORKING WITH REAL DATA
 class GoyalWelchData:
-  def __init__(self, input_file):
-    self.read_data(input_file)
+  def __init__(self, input_file, symbol):
+    self.read_data(input_file, symbol)
 
-  def read_data(self, input_file):
+  def read_data(self, input_file, symbol):
     
 
     goyal_welch_data = pd.read_csv(os.path.join('../macro_data','GoyalWelchPredictorData2022Monthly.csv'), index_col=0)
@@ -27,14 +27,14 @@ class GoyalWelchData:
     
     self.monthly_returns = monthly_returns
     self.goyal_welch_data = goyal_welch_data
-    self.get_cleaned_data(input_file)
+    self.get_cleaned_data(input_file, symbol)
     self.select_signals()
 
-  def get_cleaned_data(self, input_file):
+  def get_cleaned_data(self, input_file, symbol):
     start_date = np.max([self.goyal_welch_data.index.min(), self.monthly_returns.index.min()])
     end_date = np.min([self.goyal_welch_data.index.max(), self.monthly_returns.index.max()])
     self.goyal_welch_data = self.goyal_welch_data.loc[start_date:end_date]
-    self.goyal_welch_data['excess_returns'] = self.monthly_returns['GLD'] - self.goyal_welch_data.Rfree
+    self.goyal_welch_data['excess_returns'] = self.monthly_returns[symbol] - self.goyal_welch_data.Rfree
     self.cleaned_data = self.goyal_welch_data.loc[start_date:end_date].drop(columns=['csp']).fillna(0)
 
   def normalize(self,
