@@ -20,7 +20,7 @@ class GoyalWelchData:
     goyal_welch_data.index = pd.to_datetime(goyal_welch_data.index, format='%Y%m')
     
     monthly_returns = pd.read_csv(os.path.join('../macro_data',input_file))
-    monthly_returns.index = pd.to_datetime(monthly_returns.Date, format='%Y-%m-%d')
+    monthly_returns.index = pd.to_datetime(monthly_returns.Date, format='%Y-%m')
 
     for column in goyal_welch_data.columns:
         goyal_welch_data[column] = [float(str(x).replace(',', '')) for x in goyal_welch_data[column]]
