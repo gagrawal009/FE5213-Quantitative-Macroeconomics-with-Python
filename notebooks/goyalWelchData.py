@@ -34,6 +34,7 @@ class GoyalWelchData:
     start_date = np.max([self.goyal_welch_data.index.min(), self.monthly_returns.index.min()])
     end_date = np.min([self.goyal_welch_data.index.max(), self.monthly_returns.index.max()])
     self.goyal_welch_data = self.goyal_welch_data.loc[start_date:end_date]
+    self.monthly_returns = self.monthly_returns[start_date:end_date]
     self.goyal_welch_data['excess_returns'] = self.monthly_returns[symbol] - self.goyal_welch_data.Rfree
     self.cleaned_data = self.goyal_welch_data.loc[start_date:end_date].drop(columns=['csp']).fillna(0)
 
