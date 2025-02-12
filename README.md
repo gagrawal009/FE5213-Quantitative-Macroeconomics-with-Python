@@ -1,1 +1,1 @@
-# Introduction-to-Quant-Investing
+# Quantitative Macroeconomics and Finance with Python

@@ -1,15 +1,22 @@
 import os
 import nbformat
+import re
+import argparse
 from nbconvert.preprocessors import ExecutePreprocessor
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--pattern", type=str, default=".*")
+args = parser.parse_args()
 
 # Define the folder containing notebooks
 folder_path = "../notebooks"
 priority_notebook = "Macro_Assets.ipynb"  # Change this to the notebook that should run first
 
 # Get the list of all notebooks, ensuring the priority notebook runs first
-notebooks = [f for f in os.listdir(folder_path) if f.endswith(".ipynb")]
-notebooks.remove(priority_notebook)  # Remove the priority notebook from the list
-notebooks.insert(0, priority_notebook)  # Insert it at the beginning
+notebooks = [f for f in os.listdir(folder_path) if f.endswith(".ipynb") and re.match(args.pattern, f)]
+if priority_notebook in notebooks:
+    notebooks.remove(priority_notebook)  # Remove the priority notebook from the list
+    notebooks.insert(0, priority_notebook)  # Insert it at the beginning
 
 # Execute each notebook
 for notebook in notebooks:

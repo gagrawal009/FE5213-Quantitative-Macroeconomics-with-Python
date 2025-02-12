@@ -76,39 +76,65 @@ def ridge_regr(signals: np.ndarray,
     predictions = future_signals @ betas
     return betas, predictions
 
-
 def normalize(data: np.ndarray,
               ready_normalization: dict = None,
-              use_std: bool = False)->tuple:
-  """
-
-  """
-
-  if ready_normalization is None:
-      data_std = data.std(0)
-      data_mean = data.mean(0)
-      if use_std:
-        data = (data - data_mean) / data_std # this is z-scoring of the data
-      else:
+              method: str = 'min-max') -> tuple:
+    """
+    Normalize the data using the specified method.
+    
+    Parameters:
+    - data: np.ndarray, the data to be normalized
+    - ready_normalization: dict, precomputed normalization parameters (optional)
+    - method: str, normalization method ('z-score', 'min-max', 'robust', 'log')
+    
+    Returns:
+    - normalized data: np.ndarray
+    - normalization parameters: dict
+    """
+    
+    if ready_normalization is None:
+        data_std = data.std(0)
+        data_mean = data.mean(0)
         data_max = np.max(data, axis=0)
         data_min = np.min(data, axis=0)
-  else:
-      data_std = ready_normalization['std']
-      data_mean = ready_normalization['mean']
-      if use_std:
-        data = (data - data_mean) / data_std # this is z-scoring of the data
-      else:
-        data_max = ready_normalization['max']
-        data_min = ready_normalization['min']
-  if not use_std:
-    data = data - data_min
-    data = data/(data_max - data_min)
-    data = data - 0.5
-  normalization = {'std': data_std,
-                   'mean': data_mean,
-                    'max': data_max,
-                    'min': data_min}
-  return data, normalization
+        data_median = np.median(data, axis=0)
+        data_iqr = np.percentile(data, 75, axis=0) - np.percentile(data, 25, axis=0)
+        
+        if method == 'z-score':
+            data = (data - data_mean) / data_std  # this is z-scoring of the data
+        elif method == 'min-max':
+            data = (data - data_min) / (data_max - data_min)
+            data = data - 0.5
+        elif method == 'robust':
+            data = (data - data_median) / data_iqr
+        elif method == 'log':
+            data = np.log1p(data)  # log transformation
+            
+    else:
+        data_std = ready_normalization.get('std')
+        data_mean = ready_normalization.get('mean')
+        data_max = ready_normalization.get('max')
+        data_min = ready_normalization.get('min')
+        data_median = ready_normalization.get('median')
+        data_iqr = ready_normalization.get('iqr')
+        
+        if method == 'z-score':
+            data = (data - data_mean) / data_std  # this is z-scoring of the data
+        elif method == 'min-max':
+            data = (data - data_min) / (data_max - data_min)
+            data = data - 0.5
+        elif method == 'robust':
+            data = (data - data_median) / data_iqr
+        elif method == 'log':
+            data = np.log1p(data)  # log transformation
+    
+    normalization = {'std': data_std,
+                     'mean': data_mean,
+                     'max': data_max,
+                     'min': data_min,
+                     'median': data_median,
+                     'iqr': data_iqr}
+    return data, normalization
 
 def sharpe_ratio(x):
   # We are computing the ANNUALIZED SHARPE RATIO, hence we need to multiply by sqrt(12)
