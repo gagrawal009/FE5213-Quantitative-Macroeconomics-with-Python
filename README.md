@@ -35,8 +35,8 @@ Forecast quarterly inflation (CPI) for the US and UK from 1988 to 2025 using tim
 
 ## 📊 Authors
 
-- Sai Kiran Reddy Poreddy  
 - **Gaurav Agrawal**  
+- Sai Kiran Reddy Poreddy  
 - Raditya  
 - Jiya Dutta  
 - Choo Jin Yi  
