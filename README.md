@@ -1,19 +1,52 @@
-# Quantitative Macroeconomics and Finance with Python
+# Quantitative Macroeconomics with Python
 
-## Introduction
+This repository contains two quantitative research projects completed as part of the MSc Financial Engineering coursework at the National University of Singapore.
 
-In this project, we select three tickers and regress them against Goyal-Welch macroeconomic data to generate a strategy that outperforms excess returns. To achieve this, we explore Ordinary Least Squares (OLS) with ridge regression and Deep Neural Network models. By comparing traditional econometric methods with more modern machine learning models, we assess their effectiveness in improving risk-adjusted returns (Sharpe ratios).
+## 📁 Part 1: Asset Return Forecasting using Goyal-Welch Data
 
-## How to run
+**Objective:**  
+Predict excess returns of SPY, TLT, and GLD ETFs using 14 macroeconomic indicators from the Goyal-Welch dataset.
 
-Each of the file is jupyter notebook file, each of them can be run with internal run all in notebook. Altrnatively, You can use 
+**Methods:**  
+- OLS and Ridge Regression with Fourier-transformed features  
+- Deep Neural Networks for non-linear prediction  
+- Model tuning via Sharpe Ratio optimization and regularization
 
-```
-    > python run_notebooks.py
-``` 
-For running all notebooks with optional paramter --pattern to run specific set.
+**Key Results:**  
+- Ridge and deep learning models outperformed baselines  
+- Best Sharpe ratio: **1.03** on SPY with deep learning  
+- Analysis of signal importance and normalization impact
 
-## Theory and Report
+## 📁 Part 2: Inflation Forecasting – US and UK
 
-To refer to theory refer to the original notebooks folder. Entire analysis and report is attached in th repository.
+**Objective:**  
+Forecast quarterly inflation (CPI) for the US and UK from 1988 to 2025 using time series and machine learning models.
+
+**Models Used:**  
+- Autoregressive (AR)  
+- Autoregressive Distributed Lag (ADL)  
+- XGBoost with lagged features
+
+**Key Findings:**  
+- AR(3) for US and AR(5) for UK delivered lowest RMSE  
+- Multi-step forecasts closely matched Fed and Statista projections for 2025  
+- XGBoost performed well in stable regimes but struggled with recent volatility
+
+
+## 📊 Authors
+
+- Sai Kiran Reddy Poreddy  
+- **Gaurav Agrawal**  
+- Raditya  
+- Jiya Dutta  
+- Choo Jin Yi  
+
+## 🏫 Course
+
+FE5213 Quantitative Macroeconomics & Finance  
+National University of Singapore – 2025
+
+---
+
+
 
